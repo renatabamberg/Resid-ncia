@@ -43,7 +43,12 @@ class Evento{
 
         Evento(int _duracao){
             this->duracao = _duracao;
+        
         }
+    public: 
+    virtual void imprimir () {
+        std::cout<< "Imprimir" << std::endl;
+    }
 };
 
 class Roteiro : public Evento{
@@ -53,6 +58,13 @@ class Roteiro : public Evento{
         Roteiro(int _duracao, string _titulo, int _ordem):Evento(_duracao){
             this->titulo = _titulo;
             this->ordem = _ordem;
+        }
+
+        void imprimir () override{
+            cout <<"Imprimindo Roteiro" << endl;
+            cout<< "Titulo: "<< this -> titulo<< endl;
+            cout << "Ordem: "<< this -> ordem<< endl;
+
         }
 
 };
@@ -66,7 +78,14 @@ class Deslocamento : public Evento{
             this->destino = _destino;
         }
 
-};
+        void imprimir () override{
+            cout << "--Deslocamento --"<< endl;
+            cout << "De: " << this -> origem<< endl;
+            cout << "Para: "<< this-> destino << endl;
+            cout << "Duração: "<< this ->duracao<<endl;
+        } 
+    };
+
 
 class Pernoite : public Evento{
     string local;
@@ -74,13 +93,18 @@ class Pernoite : public Evento{
         Pernoite(int _duracao,string _local=""):Evento(_duracao){
             this->local = _local;
         }
+    void imprimir () override{
+        cout << "--Pernoite--"<< endl;
+        cout<< "local: "<< endl;
+        cout<< "duracao: "<< endl;
+    }
 };
 
 class Pacote{
     private:
-        vector<Evento*> listaEventos;
     
     public:
+        vector<Evento*> listaEventos;
         Pacote(Evento *_evento){
             listaEventos.push_back(_evento);
         }
@@ -124,6 +148,12 @@ int main(){
     Pacote *bronze = new Pacote(r1); //polimorfismo
     bronze->inserirEvento(d1);
     bronze->inserirEvento(p1);
+
+    for (auto el: bronze -> listaEventos) {
+        cout<<endl;
+        el-> imprimir ();
+
+    }
 
     Reserva *reserva01 = new Reserva(cli01,bronze);
     
